@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Piškvorky</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="fonts/font-awesome.min.css" />
+    <link rel="shortcut icon" href="assets/redcross.ico" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="scoreboard">
+            <h4 id="actualTurn" style="float: left;">Actual turn: <i class="" id="actualTurnIco" style="margin-left: 5px; color: #d92e2e;"></i></h4>
+            <h4 style="float: right">
+                <i class="fa fa-times" style="color: #d92e2e; margin-right: 8px;"></i>
+                <span id="score">0:0</span>
+                <i class="fa fa-circle-o" style="color: #2e86d9; margin-left: 8px;"></i></h4>
+        </div>
+        <div class="playground"></div>
+        <div class="controls">
+            <button style="width: 100px; height: 35px;" onclick="GameLogic.restart(false)">New game</button>
+            <button style="width: 100px; height: 35px; margin-left: 10px;" onclick="GameLogic.restart(true)">Restart</button>
+        </div>
+    </div>
+
+    <div class="alertsContainer"></div>
+
+    <script src="main.js"></script>
+</body>
+
+</html>
