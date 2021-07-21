@@ -55,6 +55,8 @@ class Game {
         const square = document.getElementById(id);
         const squareLogo = square.children[0];
         const symbol = this.getSymbol();
+        if (square.dataset.type)
+            return;
         squareLogo.setAttribute('class', '');
         squareLogo.classList.add('fa', `fa-${symbol.name}`, 'fa-3x');
         squareLogo.style.color = symbol.color;
@@ -65,10 +67,120 @@ class Game {
     checkCombinations(lastSquare) {
         const x = Number(((Number(lastSquare) < 10 ? '0' : '') + lastSquare).charAt(0));
         const y = Number(((Number(lastSquare) < 10 ? '0' : '') + lastSquare).charAt(1));
-        // this.horizontalComb(x);
+        this.horizontalCheck(x);
+        this.verticalCheck(y);
+        this.crosswiseLPCheck(x, y);
+        this.crosswisePLCheck(x, y);
+        this.checkEmpty();
+    }
+    reportWin(type) {
+        const scoreboard = document.getElementById('score');
+        const score = scoreboard.innerText.split(':');
+        let newScore;
+        if (type == 'times')
+            newScore = `${Number(score[0]) + 1}:${score[1]}`;
+        else
+            newScore = `${score[0]}:${Number(score[1]) + 1}`;
+        scoreboard.innerText = newScore;
+        this.switchSymbol('current');
+        this.restart(false);
+    }
+    horizontalCheck(row) {
+        let currentSymbol;
+        let k = { symbol: undefined, index: 0 };
+        for (let i = 0; i < 10; i++) {
+            const id = String(((row !== 0 ? row : '') + '') + (i + ''));
+            const squareData = document.getElementById(id);
+            const filledWith = squareData.dataset.type;
+            if (filledWith !== currentSymbol) {
+                currentSymbol = filledWith;
+                k.symbol = currentSymbol;
+                k.index = 0;
+            }
+            if (k.symbol)
+                k.index++;
+            if (k.index == this.winLimit) {
+                this.reportWin(currentSymbol);
+            }
+        }
+    }
+    verticalCheck(column) {
+        let currentSymbol;
+        let k = { symbol: undefined, index: 0 };
+        for (let i = 0; i < 10; i++) {
+            const id = String(((i !== 0 ? i : '') + '') + (column + ''));
+            const squareData = document.getElementById(id);
+            const filledWith = squareData.dataset.type;
+            if (filledWith !== currentSymbol) {
+                currentSymbol = filledWith;
+                k.symbol = currentSymbol;
+                k.index = 0;
+            }
+            if (k.symbol)
+                k.index++;
+            if (k.index == this.winLimit) {
+                this.reportWin(currentSymbol);
+            }
+        }
+    }
+    crosswiseLPCheck(row, column) {
+        let currentSymbol;
+        let k = { symbol: undefined, index: 0 };
+        for (let i = -10; i < 10; i++) {
+            const id = String(row + i !== 0 ? row + i : '') + String(column + i);
+            const squareData = document.getElementById(String(id));
+            if (!squareData)
+                continue;
+            const filledWith = squareData.dataset.type;
+            if (filledWith !== currentSymbol) {
+                currentSymbol = filledWith;
+                k.symbol = currentSymbol;
+                k.index = 0;
+            }
+            if (k.symbol)
+                k.index++;
+            if (k.index == this.winLimit) {
+                this.reportWin(currentSymbol);
+            }
+        }
+    }
+    crosswisePLCheck(row, column) {
+        let currentSymbol;
+        let k = { symbol: undefined, index: 0 };
+        for (let i = -10; i < 10; i++) {
+            const id = String(row + i !== 0 ? row + i : '') + String(column - i);
+            const squareData = document.getElementById(String(id));
+            if (!squareData)
+                continue;
+            const filledWith = squareData.dataset.type;
+            if (filledWith !== currentSymbol) {
+                currentSymbol = filledWith;
+                k.symbol = currentSymbol;
+                k.index = 0;
+            }
+            if (k.symbol)
+                k.index++;
+            if (k.index == this.winLimit) {
+                this.reportWin(currentSymbol);
+            }
+        }
+    }
+    checkEmpty() {
+        const emptySquares = [];
+        for (let i = 0; i < 100; i++) {
+            const square = document.getElementById(String(i));
+            const data = square.dataset.type;
+            if (!data)
+                emptySquares.push(i);
+        }
+        if (emptySquares.length <= 0) {
+            alert('The game has no ways to continue.');
+            this.switchSymbol('current');
+            this.restart(false);
+        }
     }
 }
-const GameLogic = new Game(5, false, { size: 10 });
+const GameLogic = new Game(5, false, { size: 10, ai: true });
 window.onload = () => {
     GameLogic.generate();
 };
