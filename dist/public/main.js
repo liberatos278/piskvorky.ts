@@ -5,6 +5,7 @@ class Game {
         this.startSymbol = b;
         this.actualSymbol = b;
         this.playgroundSpecs = c;
+        this.timer = 0;
     }
     generate() {
         for (let i = 0; i < Math.pow(this.playgroundSpecs.size, 2); i++) {
@@ -24,6 +25,7 @@ class Game {
         const playground = document.getElementsByClassName('playground')[0];
         playground.innerHTML = '';
         this.generate();
+        this.startTimer(this.playgroundSpecs.timer, true);
         this.switchSymbol('global');
         const scoreboard = document.getElementById('score');
         if (wipe) {
@@ -51,6 +53,26 @@ class Game {
         };
         return symbol;
     }
+    startTimer(time, restart) {
+        const timer = document.getElementById('time');
+        const text = timer.firstChild;
+        if (restart)
+            clearInterval(this.timer);
+        text.textContent = `${time}  `;
+        timer.style.color = 'white';
+        this.timer = window.setInterval(function () {
+            let timerTime = Number(timer.textContent);
+            timerTime--;
+            text.textContent = `${timerTime}  `;
+            if (timerTime < 6)
+                timer.style.color = '#d92e2e';
+            if (timerTime < 1) {
+                clearInterval(GameLogic.timer);
+                GameLogic.switchSymbol('current');
+                GameLogic.startTimer(GameLogic.playgroundSpecs.timer, true);
+            }
+        }, 1000);
+    }
     setSquare(id) {
         const square = document.getElementById(id);
         const squareLogo = square.children[0];
@@ -61,6 +83,7 @@ class Game {
         squareLogo.classList.add('fa', `fa-${symbol.name}`, 'fa-3x');
         squareLogo.style.color = symbol.color;
         square.dataset.type = symbol.name;
+        this.startTimer(this.playgroundSpecs.timer, true);
         this.switchSymbol('current');
         this.checkCombinations(id);
     }
@@ -180,7 +203,7 @@ class Game {
         }
     }
 }
-const GameLogic = new Game(5, false, { size: 10, ai: true });
+const GameLogic = new Game(5, false, { size: 10, ai: true, timer: 30 });
 window.onload = () => {
     GameLogic.generate();
 };

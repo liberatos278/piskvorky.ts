@@ -1,19 +1,22 @@
 interface playground {
     size: number
     ai: boolean
+    timer: number
 }
 
 class Game {
-    readonly winLimit: number;
     public startSymbol: boolean; // false = X; true = O
     public actualSymbol: boolean;
+    public timer: number;
     readonly playgroundSpecs: playground;
+    readonly winLimit: number;
 
     constructor(a: number, b: boolean, c: playground) {
         this.winLimit = a;
         this.startSymbol = b;
         this.actualSymbol = b;
         this.playgroundSpecs = c;
+        this.timer = 0;
     }
 
     generate(): void {
@@ -42,6 +45,7 @@ class Game {
         playground.innerHTML = '';
 
         this.generate();
+        this.startTimer(this.playgroundSpecs.timer, true);
         this.switchSymbol('global');
 
         const scoreboard = document.getElementById('score') as HTMLSpanElement;
@@ -81,6 +85,31 @@ class Game {
         return symbol;
     }
 
+    startTimer(time: number, restart: boolean) {
+        const timer = document.getElementById('time')!;
+        const text = timer.firstChild!;
+
+        if (restart) clearInterval(this.timer);
+
+        text.textContent = `${time}  `;
+        timer.style.color = 'white';
+        
+        this.timer = window.setInterval(function () {
+
+            let timerTime = Number(timer.textContent)
+            timerTime--;
+
+            text.textContent = `${timerTime}  `;
+
+            if (timerTime < 6) timer.style.color = '#d92e2e';
+            if (timerTime < 1) {
+                clearInterval(GameLogic.timer);
+                GameLogic.switchSymbol('current');
+                GameLogic.startTimer(GameLogic.playgroundSpecs.timer, true);
+            }
+        }, 1000);
+    }
+
     setSquare(id: string): void {
 
         const square = document.getElementById(id) as HTMLDivElement;
@@ -95,6 +124,7 @@ class Game {
 
         square.dataset.type = symbol.name;
 
+        this.startTimer(this.playgroundSpecs.timer, true);
         this.switchSymbol('current');
         this.checkCombinations(id);
     }
@@ -259,7 +289,7 @@ class Game {
     }
 }
 
-const GameLogic = new Game(5, false, { size: 10, ai: true });
+const GameLogic = new Game(5, false, { size: 10, ai: true, timer: 30 });
 window.onload = () => {
     GameLogic.generate();
 }

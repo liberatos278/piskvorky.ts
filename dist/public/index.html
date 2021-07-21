@@ -14,16 +14,19 @@
 <body>
     <div class="container">
         <div class="scoreboard">
-            <h4 id="actualTurn" style="float: left;">Actual turn: <i class="" id="actualTurnIco" style="margin-left: 5px; color: #d92e2e;"></i></h4>
-            <h4 style="float: right">
+            <h4 id="actualTurn">Actual turn: <i class="" id="actualTurnIco" style="margin-left: 5px; color: #d92e2e;"></i></h4>
+            <h4 id="time">0  <i class="fa fa-clock-o" style="margin-right: 5px;" aria-hidden="true"></i></h4>
+            <h4 style=>
                 <i class="fa fa-times" style="color: #d92e2e; margin-right: 8px;"></i>
                 <span id="score">0:0</span>
-                <i class="fa fa-circle-o" style="color: #2e86d9; margin-left: 8px;"></i></h4>
+                <i class="fa fa-circle-o" style="color: #2e86d9; margin-left: 8px;"></i>
+            </h4>
         </div>
         <div class="playground"></div>
         <div class="controls">
-            <button style="width: 100px; height: 35px;" onclick="GameLogic.restart(false)">New game</button>
-            <button style="width: 100px; height: 35px; margin-left: 10px;" onclick="GameLogic.restart(true)">Restart</button>
+            <button style="width: 100px; height: 35px;" onclick="GameLogic.restart(false)">Draw</button>
+            <button style="width: 100px; height: 35px; margin-left: 10px;"
+                onclick="GameLogic.restart(true)">Restart</button>
         </div>
     </div>
 
