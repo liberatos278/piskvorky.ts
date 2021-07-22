@@ -18,6 +18,7 @@ class Game {
             square.setAttribute('id', i);
             square.setAttribute('onclick', 'GameLogic.setSquare(this.id)');
             this.switchSymbol('refreshonly');
+            this.stopTimer(true);
             square.append(icon);
             playground.append(square);
         }
@@ -79,7 +80,7 @@ class Game {
         clearInterval(this.timer);
         timer.style.color = 'white';
         if (restart) {
-            timer.firstChild.textContent = '30  ';
+            timer.firstChild.textContent = `${this.playgroundSpecs.timer}  `;
         }
     }
     setSquare(id) {
@@ -198,7 +199,28 @@ class Game {
         }
     }
 }
-const GameLogic = new Game(5, false, { size: 10, ai: true, timer: 30 });
-window.onload = () => {
+function createNew() {
+    const winLimit = document.getElementById('winLimit');
+    const roundTime = document.getElementById('roundTime');
+    const scoreboard = document.getElementsByClassName('scoreboard')[0];
+    const control = document.getElementsByClassName('controls')[0];
+    const menu = document.getElementsByClassName('newGame')[0];
+    if (!winLimit.value || Number(winLimit.value) < 2 || Number(winLimit.value) > 10) {
+        winLimit.style.color = 'red';
+        return;
+    }
+    else
+        winLimit.style.color = 'white';
+    if (!roundTime.value || Number(roundTime.value) < 10 || Number(roundTime.value) > 60) {
+        roundTime.style.color = 'red';
+        return;
+    }
+    else
+        roundTime.style.color = 'white';
+    scoreboard.style.visibility = 'visible';
+    control.style.visibility = 'visible';
+    menu.style.display = 'none';
+    GameLogic = new Game(Number(winLimit.value), false, { size: 10, ai: true, timer: Number(roundTime.value) });
     GameLogic.generate();
-};
+}
+let GameLogic;

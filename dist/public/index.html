@@ -13,23 +13,40 @@
 
 <body>
     <div class="container">
-        <div class="scoreboard">
-            <h4 id="actualTurn">Actual turn: <i class="" id="actualTurnIco" style="margin-left: 5px; color: #d92e2e;"></i></h4>
-            <h4 id="time">30  <i class="fa fa-clock-o" style="margin-right: 5px;" aria-hidden="true"></i></h4>
+        <div class="scoreboard" style="visibility: hidden;">
+            <h4 id="actualTurn">Actual turn: <i class="" id="actualTurnIco"
+                    style="margin-left: 5px; color: #d92e2e;"></i></h4>
+            <h4 id="time"> <i class="fa fa-clock-o" style="margin-right: 5px;" aria-hidden="true"></i></h4>
             <h4 style=>
                 <i class="fa fa-times" style="color: #d92e2e; margin-right: 8px;"></i>
                 <span id="score">0:0</span>
                 <i class="fa fa-circle-o" style="color: #2e86d9; margin-left: 8px;"></i>
             </h4>
         </div>
-        <div class="playground"></div>
-        <div class="controls">
-            <button style="width: 100px; height: 35px;" onclick="GameLogic.restart(false)">Draw</button>
-            <button style="width: 100px; height: 35px; margin-left: 10px;"
-                onclick="GameLogic.restart(true)">Restart</button>
+        <div class="playground">
+            <div class="newGame">
+                <h3 style="font-size: 25px;">New game</h3>
+                <div class="separator" style="width: 75%; height: 3px; margin: auto; background-color: white;"></div>
+                <div style="margin-top: 2em;">
+                    <div class="segment">
+                        <label>Winning combination:</label>
+                        <input id="winLimit" type="number" style="width: 20px;" value="5">
+                    </div>
+                    <div class="segment">
+                        <label>Round time:</label>
+                        <input id="roundTime" type="number" style="width: 20px;" value="30">
+                    </div>
+
+                    <button style="width: 100px; height: 35px; margin-top: 5em;" onclick="createNew()">Create</button>
+                </div>
+            </div>
+        </div>
+        <div class="controls" style="visibility: hidden;">
+            <button style="width: 100px; height: 35px;" onclick="GameLogic.restart(false)">New Game</button>
+            <button style="width: 100px; height: 35px; margin-left: 10px;" onclick="GameLogic.restart(false)">Draw</button>
+            <button style="width: 100px; height: 35px; margin-left: 10px;" onclick="GameLogic.restart(true)">Restart</button>
         </div>
     </div>
-
     <script src="main.js"></script>
 </body>
 

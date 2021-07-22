@@ -2,6 +2,7 @@
 
 * {
     user-select: none;
+    outline: none;
 }
 
 body {
@@ -60,7 +61,7 @@ body {
     float: right;
 }
 
-.controls button {
+button {
     color: white;
     border: solid 1px white;
     background-color: black;
@@ -70,9 +71,42 @@ body {
     transition: all 0.3s ease 0s;
 }
 
-.controls button:hover {
+button:hover {
     border: solid 1px #d92e2e;
     color: #d92e2e;
+}
+
+.newGame {
+    display: block;
+    width: 80%;
+    height: 500px;
+    margin: auto;
+    color: white;
+    text-align: center;
+    font-family: 'Barlow Condensed', sans-serif;
+}
+
+.newGame input {
+    border: black solid 2px;
+    border-bottom: white 2px solid;
+    margin-right: 5em;
+    padding-bottom: 5px;
+    background-color: black;
+    color: white;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.segment { display: flex; justify-content: space-between; vertical-align: middle; }
+.newGame label {
+    margin-top: 10px;
+    margin-left: 5em;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .fa-circle-o { margin: 1px 1px 0 0; }
