@@ -30,7 +30,7 @@ class Game {
         playground.innerHTML = '';
         this.stopTimer(true);
         this.generate();
-        this.switchSymbol('global');
+        this.switchSymbol('current');
         if (wipe)
             this.setScore(0, 0, true);
     }
